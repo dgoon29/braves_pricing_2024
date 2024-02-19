@@ -293,7 +293,7 @@ residuals %>% filter(observation <= 100) %>%
        y="Residual",
        title = "Comparing residiuals between models",
        subtitle = "",
-       caption  = "[note] LM vs. GLM vs. XGB Models")            +
+       caption  = "[note] LM vs. GLM vs. XGB Models")             +
   theme(plot.caption = element_text(hjust = 0, 
                                     face= "italic",
                                     color = "grey10"),
@@ -347,7 +347,7 @@ model_graph %>%
        y="XGB Prediction",
        title = "XGB Model Performance",
        subtitle = "",
-       caption  = "")            +
+       caption  = "")                                             +
   theme(plot.caption = element_text(hjust = 0, 
                                     face= "italic",
                                     color = "grey10"),
@@ -379,7 +379,7 @@ model_graph %>%
        y="GLM Prediction",
        title = "GLM Model Performance",
        subtitle = "",
-       caption  = "")            +
+       caption  = "")                                             +
   theme(plot.caption = element_text(hjust = 0, 
                                     face= "italic",
                                     color = "grey10"),
@@ -410,7 +410,7 @@ model_graph %>%
        y="LM Prediction",
        title = "LM Model Performance",
        subtitle = "",
-       caption  = "")            +
+       caption  = "")                                             +
   theme(plot.caption = element_text(hjust = 0, 
                                     face= "italic",
                                     color = "grey10"),

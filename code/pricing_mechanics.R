@@ -3,12 +3,15 @@ source("code/setup.R")
 # Build data set
 #-------------------------------------------------------------------------------
 # Build a simple data set
+set.seed(755)
 price <- as.data.frame(round(rbeta(4000,5,3)*100,0))
 sales <- as.data.frame(table(price))
 
 names(sales) <- c("price","sales")
 sales$price <- as.numeric(as.character(sales$price))
 str(sales)
+
+vroom::vroom_write(sales,'data/simulated_ticket_sales.csv',delim = ",")
 #-------------------------------------------------------------------------------
 # The Price response function
 #-------------------------------------------------------------------------------
