@@ -14,11 +14,11 @@ This project has three deliverables. You or your team will be evaluated relative
 
 This project consists of three deliverables:
 
-1. Predictions for ticket sales for each event contained in the _prediction_data_ folder.
+1. Predictions for ticket sales for each event are contained in the _prediction_data_ folder.
 2. A Word document explaining your work.
 3. The file or spreadsheet you used to construct your model.
 
-The project will be evaluated based on how closely your model approximates the actual outcomes for event contained in the _prediction_data_ folder. 
+The project will be evaluated based on how closely your model approximates the actual outcomes for the event contained in the _prediction_data_ folder. 
 
 ## Deliverables Format
 
@@ -33,7 +33,7 @@ __Deliverable 2:__ A Word document with a brief explanation of your approach. Ke
 - What steps did you take to evaluate and prepare the data before you began to model it? 
 - What tools did you use to build your model? Why? Include any external packages if using a language such as Python or R.
 - What model did you use to construct your forecast? Why?
-- What is the _RMSE_^[https://en.wikipedia.org/wiki/Root-mean-square_deviation] of your model on test data? Please include summary output of the model that documents basic model features such as pvalues etc.
+- What is the _RMSE [https://en.wikipedia.org/wiki/Root-mean-square_deviation] of your model on test data? Please include a summary output of the model that documents basic model features such as pvalues etc.
 - Please give any other context that you find important.
   - Were there any surprises in the data? 
   - Did anything stand out to you after constructing your model? 
@@ -71,7 +71,7 @@ This folder contains event-level metadata for each game over several seasons. Al
 - __O_Team (CHAR):__ The opposing team.
 - __Time_Type2 (NUMERIC):__ Did the game happen in the morning, afternoon, or evening?
 - __Month (CHAR):__	What month did this game occur?
-- __Weekend (LOGICAL):__ Did this game occur on a Fri, Sat, or Sun.	
+- __Weekend (LOGICAL):__ Did this game occur on a Fri, Sat, or Sun?	
 - __School (LOGICAL):__	Are children in school?
 - __start_of_homestand (LOGICAL):__	Was this the first game in a homestand?
 - __end_of_homestand (LOGICAL):__ Was this the last game in a homestand?
