@@ -24,18 +24,9 @@ The project will be evaluated based on how closely your model approximates the a
 
 __Deliverable 1:__ A .csv file with the event name, the ticket estimate, and your name or group. See below.
 
-<br>      
-
-<table>
-<caption><span id="tab:table1">Output Format: </span>Format.</caption>
-
-event_name (CHAR)    tickets (NUMERIC)    name (CHAR)
--------------        -----------------    ----------
-EXBBxxxx             xxxxx                xxxxx
-
-
-</table>
-
+- event_name (CHAR)
+- tickets (NUMERIC)
+- name (CHAR)
 
 __Deliverable 2:__ A Word document with a brief explanation of your approach. Keep this document concise and brief, you are not being evaluated on its contents. This document should include:
 
