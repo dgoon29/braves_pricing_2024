@@ -82,6 +82,7 @@ schedule$Date <- as.Date(schedule$Date, format = "%m/%d/%Y")
 #ticketing <- read.csv('data_sales/2022_Ticketing_Data.csv')
 sales$Date <- as.Date(sales$Date, format = "%Y-%m-%d")
 df <- left_join(sales, schedule,by = "Date")
+write.csv(df,"combined_data.csv")
 ```
 
 ```{r}
@@ -152,6 +153,18 @@ mae_svm <- mae(test$Tickets, svm_predictions)
 cat("RF MAE:", mae_rf, "\n")
 cat("XGB MAE:", mae_xgb, "\n")
 cat("SVM MAE:", mae_svm, "\n")
+```
+
+
+```{r}
+df_test_sc <- read.csv('prediction_data/2023_Schedule_info.csv')
+df_test_ti <- read.csv('prediction_data/2023_Ticketing_Data.csv')
+df_test_sc$Date <- as.Date(df_test_sc$Date, format = "%m/%d/%Y")
+
+
+df_test_ti$Date <- as.Date(df_test_ti$Date, format = "%Y-%m-%d")
+df <- left_join(df_test_ti, df_test_sc,by = "Date")
+write.csv(df,"combined_test_data.csv")
 ```
 
 
