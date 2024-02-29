@@ -1,0 +1,162 @@
+---
+title: "deep_goon_price_prediction"
+output: html_document
+date: "2024-02-22"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+```
+
+```{r}
+# Set the path to the directory containing the CSV files
+path_to_data <- "data_schedule/"
+
+# List all CSV files in the directory
+file_list <- list.files(path = path_to_data, pattern = "*.csv", full.names = TRUE)
+
+# Define a function to read and process each CSV file
+process_csv <- function(file_name) {
+  df <- read.csv(file_name)
+  
+  # Optionally, add a source file column to identify the data's origin
+  df$source_file <- basename(file_name)
+  
+  return(df)
+}
+
+# Read all CSV files into a list of data frames
+schedule_list <- lapply(file_list, process_csv)
+
+# Find the intersection of all column names across all data frames
+common_columns <- Reduce(intersect, lapply(schedule_list, names))
+
+# Keep only the common columns in each data frame and combine
+schedule_list <- lapply(schedule_list, `[`, common_columns)
+schedule <- do.call(rbind, schedule_list)
+schedule$source_file <- NULL
+
+# Check the combined data frame
+print(schedule)
+```
+
+```{r}
+# Set the path to the directory containing the CSV files
+path_to_data <- "data_sales/"
+
+# List all CSV files in the directory
+file_list <- list.files(path = path_to_data, pattern = "*.csv", full.names = TRUE)
+
+# Define a function to read and process each CSV file
+process_csv <- function(file_name) {
+  df <- read.csv(file_name)
+  
+  # Optionally, add a source file column to identify the data's origin
+  df$source_file <- basename(file_name)
+  
+  return(df)
+}
+
+# Read all CSV files into a list of data frames
+sales_list <- lapply(file_list, process_csv)
+
+# Find the intersection of all column names across all data frames
+common_columns <- Reduce(intersect, lapply(sales_list, names))
+
+# Keep only the common columns in each data frame and combine
+sales_list <- lapply(sales_list, `[`, common_columns)
+
+sales <- do.call(rbind, sales_list)
+sales$source_file <- NULL
+
+# Check the combined data frame
+print(sales)
+
+```
+
+
+
+```{r}
+#schedule_12 <- read.csv('data_schedule/2022_Schedule_info.csv')
+schedule$Date <- as.Date(schedule$Date, format = "%m/%d/%Y")
+#ticketing <- read.csv('data_sales/2022_Ticketing_Data.csv')
+sales$Date <- as.Date(sales$Date, format = "%Y-%m-%d")
+df <- left_join(sales, schedule,by = "Date")
+```
+
+```{r}
+str(df)
+summary(df)
+```
+
+```{r}
+hist(sales$Tickets, main = "Distribution of Tickets", xlab = "Tickets", col = "blue")
+```
+
+
+
+
+
+```{r}
+library(caTools)
+# Assuming 'data' is your dataframe
+set.seed(123) # For reproducibilit/y
+split <- sample.split(df$Tickets, SplitRatio = 0.8)
+
+train <- subset(df, split == TRUE)
+test <- subset(df, split == FALSE)
+
+# Prepare the data for XGBoost
+train_xgb <- as.matrix(train[, -which(names(train) == "Tickets")])
+train_y <- train$Tickets
+test_xgb <- as.matrix(test[, -which(names(test) == "Tickets")])
+test_y <- test$Tickets
+```
+
+```{r}
+library(randomForest)
+library(Metrics)
+train_complete <- na.omit(train)
+rf_model <- randomForest(Tickets ~ ., data = train_complete)
+summary(rf_model)
+rf_predictions <- predict(rf_model, test)
+mae_rf <- mae(test$Tickets, rf_predictions)
+print(paste("RF MAE:", mae_rf))
+```
+```{r}
+# XGBoost
+library(xgboost)
+# Prepare data for xgboost
+dtrain <- xgb.DMatrix(data = as.matrix(train[,-which(names(train) == "Tickets")]), label = train$Tickets)
+dtest <- xgb.DMatrix(data = as.matrix(test[,-which(names(test) == "Tickets")]), label = test$Tickets)
+xgb_model <- xgb.train(data = dtrain, objective = "reg:squarederror", nrounds = 100)
+
+# SVM
+library(e1071)
+svm_model <- svm(Tickets ~ ., data = train)
+```
+
+```{r}
+# Predictions
+rf_predictions <- predict(rf_model, newdata = test)
+xgb_predictions <- predict(xgb_model, dtest)
+svm_predictions <- predict(svm_model, newdata = test)
+
+# MAE calculation
+library(Metrics)
+mae_rf <- mae(test$Tickets, rf_predictions)
+mae_xgb <- mae(test$Tickets, xgb_predictions)
+mae_svm <- mae(test$Tickets, svm_predictions)
+
+# Print MAE for each model
+cat("RF MAE:", mae_rf, "\n")
+cat("XGB MAE:", mae_xgb, "\n")
+cat("SVM MAE:", mae_svm, "\n")
+```
+
+
+
+
+
+
+
